@@ -1,25 +1,63 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Header from './Header';
+import Player from './Player';
+
+
+class App extends React.Component {
+  state = {
+    players: [
+      {
+        name: "Maurice",
+        score: 1,
+        id: 1
+      },
+      {
+        name: "James",
+        score: 5,
+        id: 2
+      },
+      {
+        name: "Ellen",
+        score: 1,
+        id: 3
+      },
+      {
+        name: "Alaa",
+        score: 1,
+        id: 4
+      }
+    ]
+  };
+
+  handleScoreChange = (index, delta) => {
+    console.log('index: ' + index, 'delta: ' + delta)
+    this.setState(
+      { score: this.state.players[index].score += delta}
+    )
+  }
+
+  
+  render() {
+    return (
+      <div className="scoreboard">
+          <Header title="Scoreboard" totalPlayers={this.state.players.length}/>
+
+          {/* Player list */}
+          {this.state.players.map((player, index) => 
+              <Player
+                name = {player.name}
+                key = {player.id.toString()}
+                score = {player.score}
+                changeScore={this.handleScoreChange}
+                index={index}
+              />
+          )}
+      </div>
+    )
+  };
+
 }
 
 export default App;
